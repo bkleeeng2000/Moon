@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.io.IOException;
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(adapter);
 
-
+        //======
+        //Thread
+        //======
         Thread mThread = new Thread() {
             @Override
             public void run() {
@@ -41,17 +45,29 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException ex) {
                 }
             }
-        };//asdf
-
+        };
         mThread.start();
-
         try {
             mThread.join();
-            adapter.addItem(bitmap,"Test");
+            adapter.addItem(bitmap, "Test");
         } catch (InterruptedException ex) {
 
         }
+
+        listView.setOnItemClickListener(mItemClickListener);
+
     }
+
+    private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ListViewItem item = (ListViewItem) parent.getItemAtPosition(position);
+
+            String titleStr = item.getTitle();
+            Bitmap iconDrawble = item.getIcon();
+        }
+    };
+
 
 
 
