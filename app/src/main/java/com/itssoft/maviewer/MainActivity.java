@@ -1,5 +1,6 @@
 package com.itssoft.maviewer;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(adapter);
 
+
         //======
         //Thread
         //======
@@ -58,17 +61,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ListViewItem item = (ListViewItem) parent.getItemAtPosition(position);
+            ListViewAdapter adapter = (ListViewAdapter) parent.getAdapter();
 
             String titleStr = item.getTitle();
             Bitmap iconDrawble = item.getIcon();
+
+            Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
+            Intent intentSubActivity = new Intent(MainActivity.this,Viewer.class);
+            startActivity(intentSubActivity);
+
+
         }
     };
-
-
 
 
     public void ImageLoad() throws IOException {//throws는 예외를 ImageLoad를 호출하는 메소드에게 넘김
